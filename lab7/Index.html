@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 7 - CSS Animations and Transitions</title>
+    <style>
+        /* Task 1: Smooth color change and resize effect */
+        .button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.5s, transform 0.3s;
+        }
+
+        .button:hover {
+            background-color: #2ecc71;
+        }
+
+        .button:active {
+            transform: scale(1.1);
+        }
+
+        /* Task 2: Smooth expanding text block */
+        .content {
+            max-height: 0;
+            overflow: hidden;
+            background-color: #f1f1f1;
+            padding: 0 10px;
+            transition: max-height 0.5s ease-out;
+        }
+
+        .content:hover {
+            max-height: 200px;
+        }
+
+        /* Task 3: Animation of block movement */
+        .box {
+            width: 50px;
+            height: 50px;
+            background-color: #e74c3c;
+            position: relative;
+            animation: move 2s infinite alternate;
+        }
+
+        @keyframes move {
+            from {
+                transform: translateX(0);
+            }
+            to {
+                transform: translateX(200px);
+            }
+        }
+
+        /* Individual Task: Circle animation */
+        .circle {
+            width: 50px;
+            height: 50px;
+            background-color: #9b59b6;
+            border-radius: 50%;
+            position: relative;
+            transition: background-color 0.6s;
+        }
+
+        .circle.animate {
+            animation: moveCircle 1.4s infinite alternate;
+        }
+
+        @keyframes moveCircle {
+            from {
+                transform: translateY(0);
+            }
+            to {
+                transform: translateY(100px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Lab 7 - CSS Animations and Transitions</h1>
+
+    <!-- Task 1 -->
+    <button class="button">Hover and Click Me</button>
+
+    <!-- Task 2 -->
+    <div class="content">
+        <p>This is some expandable content. Hover over this block to expand it.</p>
+    </div>
+
+    <!-- Task 3 -->
+    <div class="box"></div>
+
+    <!-- Individual Task -->
+    <button onclick="animateCircle()">Animate Circle</button>
+    <div class="circle" id="circle"></div>
+
+    <script>
+        function animateCircle() {
+            const circle = document.getElementById('circle');
+            const randomColor = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+            circle.style.backgroundColor = randomColor;
+
+            if (circle.classList.contains('animate')) {
+                circle.classList.remove('animate');
+            } else {
+                circle.classList.add('animate');
+            }
+        }
+    </script>
+</body>
+</html></div>
