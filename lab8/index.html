@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 8 - Fetch API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        form {
+            margin-top: 20px;
+        }
+        form input, form button {
+            padding: 10px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Lab 8 - Fetch API</h1>
+    <button id="refreshButton">Оновити</button>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Ім'я</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody id="usersTable">
+            <!-- Data will be dynamically inserted here -->
+        </tbody>
+    </table>
+
+    <form id="addUserForm">
+        <input type="text" id="userName" placeholder="Ім'я" required>
+        <input type="email" id="userEmail" placeholder="Email" required>
+        <button type="submit">Добавити</button>
+    </form>
+
+    <script>
+        const apiUrl = "https://jsonplaceholder.typicode.com/users";
+
+        function fetchUsers() {
+            fetch(apiUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Помилка при отриманні даних");
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const tableBody = document.getElementById("usersTable");
+                    tableBody.innerHTML = ""; // Clear existing data
+
+                    data.forEach(user => {
+                        const row = document.createElement("tr");
+                        row.innerHTML = `
+                            <td>${user.id}</td>
+                            <td>${user.name}</td>
+                            <td>${user.email}</td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                })
+                .catch(error => console.error("Помилка:", error));
+        }
+
+        document.getElementById("refreshButton").addEventListener("click", fetchUsers);
+
+        document.getElementById("addUserForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const userName = document.getElementById("userName").value;
+            const userEmail = document.getElementById("userEmail").value;
+
+            const newRow = document.createElement("tr");
+            newRow.innerHTML = `
+                <td>—</td>
+                <td>${userName}</td>
+                <td>${userEmail}</td>
+            `;
+            document.getElementById("usersTable").appendChild(newRow);
+
+            // Clear form inputs
+            document.getElementById("userName").value = "";
+            document.getElementById("userEmail").value = "";
+        });
+
+        // Initial fetch
+        fetchUsers();
+    </script>
+</body>
+</html>
